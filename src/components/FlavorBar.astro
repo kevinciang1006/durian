@@ -1,0 +1,13 @@
+---
+interface Props { label: string; score: number }
+const { label, score } = Astro.props;
+const pct = score * 20;
+---
+<div>
+  <div class="flex justify-between text-xs uppercase tracking-wide text-muted mb-2">
+    <span>{label}</span><span class="text-gold-muted">{score}/5</span>
+  </div>
+  <div class="h-1.5 rounded-full bg-gold/15 overflow-hidden">
+    <div class="h-full rounded-full bg-gradient-to-r from-gold-border to-gold-light" style={`width:${pct}%`}></div>
+  </div>
+</div>

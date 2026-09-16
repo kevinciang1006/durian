@@ -1,0 +1,47 @@
+---
+import { render } from 'astro:content';
+import { getVarietiesForLocale, slugFromId } from '../../../content/utils';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import VarietyDetail from '../../../components/VarietyDetail.astro';
+import { varietyMeta } from '../../../i18n/meta';
+import { productJsonLd, breadcrumbListJsonLd } from '../../../lib/jsonld';
+import { getLocalizedPath } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  const entries = await getVarietiesForLocale('en');
+  return entries.map((entry) => ({
+    params: { slug: slugFromId(entry.id) },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const lang = 'en' as const;
+const slug = slugFromId(entry.id);
+const { title, description } = varietyMeta(lang, entry.data);
+const siteUrl = (Astro.site ?? new URL('https://duriansriraja.com')).toString();
+const jsonLd = [
+  productJsonLd(entry, siteUrl),
+  breadcrumbListJsonLd(
+    [
+      { name: 'Home', href: getLocalizedPath('home', lang) },
+      { name: 'Varieties', href: getLocalizedPath('varieties', lang) },
+      { name: entry.data.name, href: `/en/varieties/${slug}/` },
+    ],
+    siteUrl
+  ),
+];
+---
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  alternatePath={`/varietas/${slug}/`}
+  ogImage={entry.data.images[0]?.src}
+  jsonLd={jsonLd}
+>
+  <VarietyDetail entry={entry} lang={lang}>
+    <Content />
+  </VarietyDetail>
+</BaseLayout>
