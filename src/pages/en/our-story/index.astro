@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import OurStoryContent from '../../../components/OurStoryContent.astro';
+import { meta } from '../../../i18n/meta';
+---
+<BaseLayout title={meta.en.story.title} description={meta.en.story.description} lang="en" alternatePath="/cerita-kami/">
+  <OurStoryContent lang="en" />
+</BaseLayout>

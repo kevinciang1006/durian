@@ -1,0 +1,78 @@
+---
+import WhatsAppButton from './WhatsAppButton.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Locale } from '../i18n/utils';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const copy = {
+  id: {
+    title: 'Cerita Kami',
+    sections: [
+      {
+        title: 'Berawal dari Bukit Lawang',
+        body: 'Keluarga kami tinggal di Bukit Lawang, Sumatera Utara — sebuah desa kecil di tepi hutan hujan Taman Nasional Gunung Leuser, terkenal dengan orangutan dan sungainya yang jernih. Di sinilah orang tua kami, Susanto Ciang dan Sri Astuti, menjalankan sebuah tempat retret mindfulness bagi mereka yang ingin memperlambat langkah dan kembali ke alam.',
+      },
+      {
+        title: 'Kenapa Durian',
+        body: 'Bagi keluarga kami, menanam durian adalah bentuk kesabaran. Sama seperti meditasi, kebun ini tumbuh perlahan — pohon yang ditanam hari ini baru berbuah bertahun-tahun kemudian. Pada tahun 2021, kami mulai menanami lahan seluas 8 hektar dengan lebih dari 700 pohon durian premium.',
+      },
+      {
+        title: 'Kebun yang Sedang Tumbuh',
+        body: 'Kebun kami masih muda, dan justru di situlah letak keistimewaannya — Anda menyaksikan sebuah kebun durian tumbuh dari awal. Kami menanam bibit varietas terbaik seperti Musang King, Black Thorn, dan Monthong, merawatnya di tanah subur Bukit Lawang, dan kini memasuki masa panen premium pertama kami.',
+      },
+      {
+        title: 'Nama Kami',
+        body: '"Sri Raja" membawa dua makna bagi kami: nama keluarga kami, dan gelar bagi sang raja buah. Kedua hal itulah yang kami tanam di setiap pohon.',
+      },
+      {
+        title: 'Sebuah Undangan',
+        body: 'Menikmati durian paling nikmat adalah di tempat ia tumbuh. Kebun kami berada jauh di dalam hutan — sekitar 30 menit berjalan kaki menembus rimba dan menyeberangi sungai. Bagi yang bersedia menempuhnya, ada pengalaman langka menanti: menyantap durian segar, langsung dari pohonnya, di tengah salah satu hutan tertua di dunia.',
+      },
+    ],
+  },
+  en: {
+    title: 'Our Story',
+    sections: [
+      {
+        title: 'It Began in Bukit Lawang',
+        body: 'Our family lives in Bukit Lawang, North Sumatra — a small village on the edge of the Gunung Leuser National Park rainforest, famous for its orangutans and clear rivers. Here our parents, Susanto Ciang and Sri Astuti, run a mindfulness retreat for people who want to slow down and return to nature.',
+      },
+      {
+        title: 'Why Durian',
+        body: "For our family, growing durian is an act of patience. Like meditation, this orchard grows slowly — a tree planted today only bears fruit years later. In 2021, we began planting 8 hectares of land with more than 700 premium durian trees.",
+      },
+      {
+        title: 'A Growing Orchard',
+        body: "Our orchard is young, and that's exactly what makes it special — you're watching a durian farm grow from the very beginning. We planted the finest varieties, including Musang King, Black Thorn, and Monthong, nurtured them in the fertile soil of Bukit Lawang, and are now entering our first premium harvests.",
+      },
+      {
+        title: 'Our Name',
+        body: '"Sri Raja" carries two meanings for us: our family name, and a title for the king of fruits. Both are what we plant into every tree.',
+      },
+      {
+        title: 'An Invitation',
+        body: 'Durian tastes best where it grows. Our orchard lies deep in the jungle — about a 30-minute walk through the forest and across rivers. For those willing to make the journey, a rare experience awaits: eating durian fresh, straight from the tree, in one of the oldest rainforests on earth.',
+      },
+    ],
+  },
+} as const;
+const c = copy[lang];
+---
+<div class="mx-auto max-w-3xl px-5 py-16 md:py-24 text-center">
+  <span class="inline-block h-6 w-6 border border-gold-border rounded-tr-full rounded-bl-full"></span>
+  <h1 class="font-serif text-4xl md:text-6xl text-forest mt-6">{c.title}</h1>
+</div>
+
+{c.sections.map((s) => (
+  <section class="mx-auto max-w-3xl px-5 py-8">
+    <h2 class="font-serif text-2xl md:text-3xl text-forest">{s.title}</h2>
+    <p class="text-muted-dark leading-relaxed mt-4">{s.body}</p>
+  </section>
+))}
+
+<div class="mx-auto max-w-3xl px-5 py-14 text-center">
+  <WhatsAppButton message={t.whatsapp.generic} label={t.ctaOrder} />
+</div>
