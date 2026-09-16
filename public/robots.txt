@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://duriansriraja.com/sitemap-index.xml
