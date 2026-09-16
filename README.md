@@ -58,6 +58,8 @@ Current photos and where they're used:
 - `hands-durian.png` — Home page story-teaser image and Our Story's "Kebun yang Sedang Tumbuh / A Growing Orchard" block (`HomeContent.astro`, `OurStoryContent.astro`).
 - `jungle-path.png` — Our Story's "Sebuah Undangan / An Invitation" block (`OurStoryContent.astro`).
 - `tasting-durian.png` — Export page's "Visit the Farm" block (`ExportContent.astro`).
+- `seasonal-harvest.png` — Export page's "Seasonal Harvests" block (`ExportContent.astro`).
+- `partnership.png` — Export page's "Long-Term Partnerships" block (`ExportContent.astro`).
 - `logo.png` — the circular brand mark in the header and footer (`Header.astro`, `Footer.astro`).
 
 **To swap or add a photo:** drop the new file into `src/assets/images/`,
@@ -77,6 +79,7 @@ files to the repo unnecessarily.
 |---|---|
 | young-orchard.png | 2.9MB |
 | jungle-path.png | 3.3MB |
+| seasonal-harvest.png | 2.6MB |
 | box-durian.png | 2.7MB |
 | tasting-durian.png | 2.3MB |
 | monthong.png | 2.3MB |
@@ -84,6 +87,7 @@ files to the repo unnecessarily.
 | chanee.png | 2.2MB |
 | black-thorn.png | 2.2MB |
 | musang-king.png | 2.2MB |
+| partnership.png | 2.1MB |
 | hero.png | 2.0MB |
 | hands-durian.png | 1.9MB |
 | logo.png | 1.2MB |

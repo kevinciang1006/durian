@@ -5,6 +5,8 @@ import { useTranslations } from '../i18n/utils';
 import type { Locale } from '../i18n/utils';
 import tastingImage from '../assets/images/tasting-durian.png';
 import boxImage from '../assets/images/box-durian.png';
+import harvestImage from '../assets/images/seasonal-harvest.png';
+import partnershipImage from '../assets/images/partnership.png';
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
@@ -18,9 +20,9 @@ const copy = {
       'Kebun kami masih muda, dan kami membangunnya bersama pembeli yang menghargai perjalanan itu sejak awal. Kami menyambut importir, distributor, dan mitra jangka panjang yang ingin bertumbuh bersama kami.',
     blocks: [
       { title: 'Kunjungi Kebun', body: 'Cara terbaik mengenal durian kami adalah datang langsung. Kami mengatur kunjungan kebun bagi calon mitra dan pembeli, termasuk mencicipi buah langsung dari pohon.', image: tastingImage, imageAlt: 'Sesi mencicipi durian segar di kebun bagi tamu dan mitra' },
-      { title: 'Panen Musiman', body: 'Sebagai kebun muda, kami baru memasuki musim panen premium pertama. Ketersediaan mengikuti musim buah yang sesungguhnya, bukan produksi massal.' },
+      { title: 'Panen Musiman', body: 'Sebagai kebun muda, kami baru memasuki musim panen premium pertama. Ketersediaan mengikuti musim buah yang sesungguhnya, bukan produksi massal.', image: harvestImage, imageAlt: 'Durian bergelantungan di pohon, siap dipanen' },
       { title: 'Segar & Beku', body: 'Saat musim panen, kami kirim durian segar yang dikemas rapi. Di luar musim, tersedia durian beku berkualitas untuk permintaan yang berkelanjutan.', image: boxImage, imageAlt: 'Durian dikemas rapi dalam kotak untuk pengiriman' },
-      { title: 'Kemitraan Jangka Panjang', body: 'Kami mencari mitra distribusi dan ekspor yang ingin membangun hubungan jangka panjang seiring kebun kami bertumbuh, bukan transaksi satu kali.' },
+      { title: 'Kemitraan Jangka Panjang', body: 'Kami mencari mitra distribusi dan ekspor yang ingin membangun hubungan jangka panjang seiring kebun kami bertumbuh, bukan transaksi satu kali.', image: partnershipImage, imageAlt: 'Jabat tangan antara petani dan mitra di kebun durian' },
     ],
     selectTitle: 'Bagaimana Kami Memilih',
     selectBody:
@@ -37,9 +39,9 @@ const copy = {
       "Our orchard is still young, and we're building it together with buyers who value that journey from the start. We welcome importers, distributors, and long-term partners who want to grow alongside us.",
     blocks: [
       { title: 'Visit the Farm', body: 'The best way to get to know our durian is to come see it yourself. We arrange farm visits for prospective partners and buyers, including tasting fruit straight from the tree.', image: tastingImage, imageAlt: 'A durian tasting session at the farm for guests and partners' },
-      { title: 'Seasonal Harvests', body: "As a young orchard, we're only just entering our first premium harvest season. Availability follows the real fruiting season, not mass production." },
+      { title: 'Seasonal Harvests', body: "As a young orchard, we're only just entering our first premium harvest season. Availability follows the real fruiting season, not mass production.", image: harvestImage, imageAlt: 'Durian hanging on the tree, ready for harvest' },
       { title: 'Fresh & Frozen', body: 'In season, we ship fresh durian, carefully packed. Off-season, quality frozen durian is available for ongoing demand.', image: boxImage, imageAlt: 'Durian carefully packed in boxes ready for shipment' },
-      { title: 'Long-Term Partnerships', body: "We're looking for distribution and export partners who want to build a long-term relationship as our orchard grows, not a one-off transaction." },
+      { title: 'Long-Term Partnerships', body: "We're looking for distribution and export partners who want to build a long-term relationship as our orchard grows, not a one-off transaction.", image: partnershipImage, imageAlt: 'A handshake between the farmer and a partner at the durian orchard' },
     ],
     selectTitle: 'How We Select Our Fruit',
     selectBody:
