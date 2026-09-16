@@ -677,9 +677,9 @@ git commit -m "Add varieties content collection with 5 seeded durian varieties"
 Run:
 ```bash
 mkdir -p public/images
-convert -size 1600x1200 xc:'#F1EADA' \
+magick -size 1600x1200 xc:'#F1EADA' \
   -fill '#E8E0CE' -draw 'rectangle 0,0 1600,1200' \
-  -gravity center -font Courier -pointsize 44 -fill '#8A8372' \
+  -gravity center -font "/System/Library/Fonts/Supplemental/Andale Mono.ttf" -pointsize 44 -fill '#8A8372' \
   -annotate +0-30 'PLACEHOLDER PHOTO' \
   -pointsize 28 -annotate +0+40 'Durian Sriraja — replace with a real photo' \
   public/images/placeholder-durian.jpg
@@ -690,9 +690,9 @@ Expected: exits 0, creates the file.
 
 Run:
 ```bash
-convert -size 1920x1200 xc:'#1C3327' \
+magick -size 1920x1200 xc:'#1C3327' \
   -fill '#203A2C' -draw 'rectangle 0,0 1920,1200' \
-  -gravity center -font Courier -pointsize 44 -fill '#E3C07A' \
+  -gravity center -font "/System/Library/Fonts/Supplemental/Andale Mono.ttf" -pointsize 44 -fill '#E3C07A' \
   -annotate +0-30 'PLACEHOLDER PHOTO' \
   -pointsize 28 -annotate +0+40 'Bukit Lawang orchard — replace with a real photo' \
   public/images/placeholder-farm.jpg
@@ -703,9 +703,9 @@ Expected: exits 0, creates the file.
 
 Run:
 ```bash
-convert -size 1600x1280 xc:'#E8E0CE' \
+magick -size 1600x1280 xc:'#E8E0CE' \
   -fill '#F1EADA' -draw 'rectangle 0,0 1600,1280' \
-  -gravity center -font Courier -pointsize 44 -fill '#8A8372' \
+  -gravity center -font "/System/Library/Fonts/Supplemental/Andale Mono.ttf" -pointsize 44 -fill '#8A8372' \
   -annotate +0-30 'PLACEHOLDER PHOTO' \
   -pointsize 28 -annotate +0+40 'Family orchard — replace with a real photo' \
   public/images/placeholder-orchard.jpg

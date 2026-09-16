@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import { useTranslations, getLocalizedPath } from '../i18n/utils';
 import type { Locale } from '../i18n/utils';
+import logo from '../assets/images/logo.png';
 
 interface Props { lang: Locale; alternatePath: string }
 const { lang, alternatePath } = Astro.props;
@@ -21,7 +23,7 @@ const enHref = lang === 'en' ? currentPath : alternatePath;
 <header class="sticky top-0 z-50 bg-cream/95 backdrop-blur border-b border-gold/25">
   <div class="mx-auto max-w-6xl flex items-center gap-5 px-5 py-3.5 flex-wrap">
     <a href={getLocalizedPath('home', lang)} class="flex items-center gap-3 mr-auto">
-      <span class="block h-7 w-7 border border-gold-muted rounded-tr-full rounded-bl-full"></span>
+      <Image src={logo} alt="Durian Sriraja" width={40} height={40} format="avif" loading="eager" class="h-10 w-10 rounded-full" />
       <span class="flex flex-col leading-none">
         <span class="font-serif text-lg text-forest">Durian Sriraja</span>
         <span class="text-[9px] tracking-[0.28em] uppercase text-gold-muted mt-1">Bukit Lawang · North Sumatra</span>

@@ -1,14 +1,17 @@
 import type { CollectionEntry } from 'astro:content';
 
-export function productJsonLd(entry: CollectionEntry<'varieties'>, siteUrl: string) {
-  const image = entry.data.images[0];
+export function productJsonLd(
+  entry: CollectionEntry<'varieties'>,
+  siteUrl: string,
+  imageUrl?: string
+) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: entry.data.name,
     description: entry.data.tagline,
     brand: { '@type': 'Brand', name: 'Durian Sriraja' },
-    ...(image ? { image: new URL(image.src, siteUrl).toString() } : {}),
+    ...(imageUrl ? { image: new URL(imageUrl, siteUrl).toString() } : {}),
   };
 }
 

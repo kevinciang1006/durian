@@ -6,7 +6,7 @@ season: "Pertengahan & akhir tahun"
 grade: "Premium"
 origin: "Kebun Durian Sriraja, Bukit Lawang, Sumatera Utara"
 priceNote: "Harga pasar — hubungi via WhatsApp"
-images: [{ src: "/images/placeholder-durian.jpg", alt: "Durian Musang King belah" }]
+images: [{ src: "../../../assets/images/musang-king.png", alt: "Durian Musang King belah" }]
 featured: true
 order: 1
 ---

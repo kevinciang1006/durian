@@ -6,7 +6,7 @@ season: "Mid-year & year-end"
 grade: "Premium"
 origin: "Durian Sriraja Farm, Bukit Lawang, North Sumatra"
 priceNote: "Market price — contact via WhatsApp"
-images: [{ src: "/images/placeholder-durian.jpg", alt: "Chanee durian, opened" }]
+images: [{ src: "../../../assets/images/chanee.png", alt: "Chanee durian, opened" }]
 featured: false
 order: 5
 ---

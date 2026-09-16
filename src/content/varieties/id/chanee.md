@@ -6,7 +6,7 @@ season: "Pertengahan & akhir tahun"
 grade: "Premium"
 origin: "Kebun Durian Sriraja, Bukit Lawang, Sumatera Utara"
 priceNote: "Harga pasar — hubungi via WhatsApp"
-images: [{ src: "/images/placeholder-durian.jpg", alt: "Durian Chanee belah" }]
+images: [{ src: "../../../assets/images/chanee.png", alt: "Durian Chanee belah" }]
 featured: false
 order: 5
 ---

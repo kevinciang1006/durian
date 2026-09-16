@@ -6,7 +6,7 @@ season: "Mid-year & year-end"
 grade: "Premium"
 origin: "Durian Sriraja Farm, Bukit Lawang, North Sumatra"
 priceNote: "Market price — contact via WhatsApp"
-images: [{ src: "/images/placeholder-durian.jpg", alt: "Monthong durian" }]
+images: [{ src: "../../../assets/images/monthong.png", alt: "Monthong durian" }]
 featured: false
 order: 3
 ---

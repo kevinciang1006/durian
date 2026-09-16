@@ -6,7 +6,7 @@ season: "Pertengahan & akhir tahun"
 grade: "Premium"
 origin: "Kebun Durian Sriraja, Bukit Lawang, Sumatera Utara"
 priceNote: "Harga pasar — hubungi via WhatsApp"
-images: [{ src: "/images/placeholder-durian.jpg", alt: "Durian Black Thorn" }]
+images: [{ src: "../../../assets/images/black-thorn.png", alt: "Durian Black Thorn" }]
 featured: true
 order: 2
 ---

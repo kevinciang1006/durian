@@ -6,7 +6,7 @@ season: "Mid-year & year-end"
 grade: "Premium"
 origin: "Durian Sriraja Farm, Bukit Lawang, North Sumatra"
 priceNote: "Market price — contact via WhatsApp"
-images: [{ src: "/images/placeholder-durian.jpg", alt: "Black Thorn durian" }]
+images: [{ src: "../../../assets/images/black-thorn.png", alt: "Black Thorn durian" }]
 featured: true
 order: 2
 ---

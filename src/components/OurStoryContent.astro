@@ -1,7 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import WhatsAppButton from './WhatsAppButton.astro';
 import { useTranslations } from '../i18n/utils';
 import type { Locale } from '../i18n/utils';
+import handsImage from '../assets/images/hands-durian.png';
+import jungleImage from '../assets/images/jungle-path.png';
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
@@ -22,6 +25,8 @@ const copy = {
       {
         title: 'Kebun yang Sedang Tumbuh',
         body: 'Kebun kami masih muda, dan justru di situlah letak keistimewaannya — Anda menyaksikan sebuah kebun durian tumbuh dari awal. Kami menanam bibit varietas terbaik seperti Musang King, Black Thorn, dan Monthong, merawatnya di tanah subur Bukit Lawang, dan kini memasuki masa panen premium pertama kami.',
+        image: handsImage,
+        imageAlt: 'Petani memegang durian segar hasil panen dari kebun',
       },
       {
         title: 'Nama Kami',
@@ -30,6 +35,8 @@ const copy = {
       {
         title: 'Sebuah Undangan',
         body: 'Menikmati durian paling nikmat adalah di tempat ia tumbuh. Kebun kami berada jauh di dalam hutan — sekitar 30 menit berjalan kaki menembus rimba dan menyeberangi sungai. Bagi yang bersedia menempuhnya, ada pengalaman langka menanti: menyantap durian segar, langsung dari pohonnya, di tengah salah satu hutan tertua di dunia.',
+        image: jungleImage,
+        imageAlt: 'Jalan setapak hutan dan penyeberangan sungai menuju kebun',
       },
     ],
   },
@@ -47,6 +54,8 @@ const copy = {
       {
         title: 'A Growing Orchard',
         body: "Our orchard is young, and that's exactly what makes it special — you're watching a durian farm grow from the very beginning. We planted the finest varieties, including Musang King, Black Thorn, and Monthong, nurtured them in the fertile soil of Bukit Lawang, and are now entering our first premium harvests.",
+        image: handsImage,
+        imageAlt: 'A farmer holding a freshly picked durian from the orchard',
       },
       {
         title: 'Our Name',
@@ -55,6 +64,8 @@ const copy = {
       {
         title: 'An Invitation',
         body: 'Durian tastes best where it grows. Our orchard lies deep in the jungle — about a 30-minute walk through the forest and across rivers. For those willing to make the journey, a rare experience awaits: eating durian fresh, straight from the tree, in one of the oldest rainforests on earth.',
+        image: jungleImage,
+        imageAlt: 'A jungle path and river crossing leading to the orchard',
       },
     ],
   },
@@ -66,12 +77,36 @@ const c = copy[lang];
   <h1 class="font-serif text-4xl md:text-6xl text-forest mt-6">{c.title}</h1>
 </div>
 
-{c.sections.map((s) => (
-  <section class="mx-auto max-w-3xl px-5 py-8">
-    <h2 class="font-serif text-2xl md:text-3xl text-forest">{s.title}</h2>
-    <p class="text-muted-dark leading-relaxed mt-4">{s.body}</p>
-  </section>
-))}
+{c.sections.map((s, i) =>
+  'image' in s ? (
+    <section class="mx-auto max-w-5xl px-5 py-10">
+      <div
+        class="grid gap-8 md:grid-cols-2 items-center"
+        style={i % 2 ? 'direction:rtl' : ''}
+      >
+        <Image
+          src={s.image}
+          alt={s.imageAlt}
+          width={700}
+          format="avif"
+          quality={80}
+          loading="lazy"
+          style="direction:ltr"
+          class="rounded-2xl aspect-[4/3] object-cover"
+        />
+        <div style="direction:ltr">
+          <h2 class="font-serif text-2xl md:text-3xl text-forest">{s.title}</h2>
+          <p class="text-muted-dark leading-relaxed mt-4">{s.body}</p>
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section class="mx-auto max-w-3xl px-5 py-8">
+      <h2 class="font-serif text-2xl md:text-3xl text-forest">{s.title}</h2>
+      <p class="text-muted-dark leading-relaxed mt-4">{s.body}</p>
+    </section>
+  )
+)}
 
 <div class="mx-auto max-w-3xl px-5 py-14 text-center">
   <WhatsAppButton message={t.whatsapp.generic} label={t.ctaOrder} />

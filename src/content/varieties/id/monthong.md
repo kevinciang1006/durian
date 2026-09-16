@@ -6,7 +6,7 @@ season: "Pertengahan & akhir tahun"
 grade: "Premium"
 origin: "Kebun Durian Sriraja, Bukit Lawang, Sumatera Utara"
 priceNote: "Harga pasar — hubungi via WhatsApp"
-images: [{ src: "/images/placeholder-durian.jpg", alt: "Durian Monthong" }]
+images: [{ src: "../../../assets/images/monthong.png", alt: "Durian Monthong" }]
 featured: false
 order: 3
 ---

@@ -6,7 +6,7 @@ season: "Mid-year & year-end"
 grade: "Premium"
 origin: "Durian Sriraja Farm, Bukit Lawang, North Sumatra"
 priceNote: "Market price — contact via WhatsApp"
-images: [{ src: "/images/placeholder-durian.jpg", alt: "Musang King durian, opened" }]
+images: [{ src: "../../../assets/images/musang-king.png", alt: "Musang King durian, opened" }]
 featured: true
 order: 1
 ---

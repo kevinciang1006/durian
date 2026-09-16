@@ -1,9 +1,13 @@
 ---
+import { Image } from 'astro:assets';
 import WhatsAppButton from './WhatsAppButton.astro';
 import VarietyCard from './VarietyCard.astro';
 import { useTranslations, getLocalizedPath } from '../i18n/utils';
 import { getVarietiesForLocale, slugFromId } from '../content/utils';
 import type { Locale } from '../i18n/utils';
+import heroImage from '../assets/images/hero.png';
+import handsImage from '../assets/images/hands-durian.png';
+import boxImage from '../assets/images/box-durian.png';
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
@@ -72,7 +76,7 @@ const copy = {
 const c = copy[lang];
 ---
 <section class="relative min-h-[70vh] flex items-end bg-forest">
-  <img src="/images/placeholder-farm.jpg" alt="" class="absolute inset-0 h-full w-full object-cover opacity-50" />
+  <Image src={heroImage} alt="" width={1600} format="avif" quality={80} loading="eager" class="absolute inset-0 h-full w-full object-cover opacity-50" />
   <div class="absolute inset-0 bg-gradient-to-t from-forest-deep/95 via-forest-deep/40 to-transparent"></div>
   <div class="relative mx-auto max-w-6xl w-full px-5 py-16">
     <h1 class="font-serif text-cream text-4xl md:text-7xl leading-tight max-w-2xl">{c.heroTitle}</h1>
@@ -98,7 +102,7 @@ const c = copy[lang];
 
 <section class="bg-card border-y border-gold/20">
   <div class="mx-auto max-w-6xl px-5 py-16 md:py-20 grid gap-10 md:grid-cols-2 items-center">
-    <img src="/images/placeholder-orchard.jpg" alt="" loading="lazy" decoding="async" class="rounded-2xl aspect-[5/4] object-cover" />
+    <Image src={handsImage} alt="" width={700} format="avif" quality={80} loading="lazy" class="rounded-2xl aspect-[5/4] object-cover" />
     <div>
       <h2 class="font-serif text-3xl text-forest">{c.storyTitle}</h2>
       <p class="text-muted-dark leading-relaxed mt-4 max-w-lg">{c.storyBody}</p>
@@ -108,10 +112,13 @@ const c = copy[lang];
 </section>
 
 <section class="bg-forest text-cream">
-  <div class="mx-auto max-w-6xl px-5 py-16 md:py-20">
-    <h2 class="font-serif text-3xl">{c.intlTitle}</h2>
-    <p class="text-cream/80 leading-relaxed mt-4 max-w-xl">{c.intlBody}</p>
-    <a href={getLocalizedPath('export', lang)} class="inline-block mt-6 bg-gold text-forest-dark rounded-full px-6 py-3.5 text-sm font-semibold hover:bg-gold-light">{c.intlLink}</a>
+  <div class="mx-auto max-w-6xl px-5 py-16 md:py-20 grid gap-10 md:grid-cols-2 items-center">
+    <div>
+      <h2 class="font-serif text-3xl">{c.intlTitle}</h2>
+      <p class="text-cream/80 leading-relaxed mt-4 max-w-xl">{c.intlBody}</p>
+      <a href={getLocalizedPath('export', lang)} class="inline-block mt-6 bg-gold text-forest-dark rounded-full px-6 py-3.5 text-sm font-semibold hover:bg-gold-light">{c.intlLink}</a>
+    </div>
+    <Image src={boxImage} alt="" width={700} format="avif" quality={80} loading="lazy" class="rounded-2xl aspect-[4/3] object-cover" />
   </div>
 </section>
 

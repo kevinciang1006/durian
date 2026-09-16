@@ -1,5 +1,6 @@
 ---
 import { render } from 'astro:content';
+import { getImage } from 'astro:assets';
 import { getVarietiesForLocale, slugFromId } from '../../content/utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import VarietyDetail from '../../components/VarietyDetail.astro';
@@ -21,8 +22,12 @@ const lang = 'id' as const;
 const slug = slugFromId(entry.id);
 const { title, description } = varietyMeta(lang, entry.data);
 const siteUrl = (Astro.site ?? new URL('https://duriansriraja.com')).toString();
+const sourceImage = entry.data.images[0];
+const ogImage = sourceImage
+  ? (await getImage({ src: sourceImage.src, width: 1200, format: 'avif' })).src
+  : undefined;
 const jsonLd = [
-  productJsonLd(entry, siteUrl),
+  productJsonLd(entry, siteUrl, ogImage),
   breadcrumbListJsonLd(
     [
       { name: 'Beranda', href: getLocalizedPath('home', lang) },
@@ -38,7 +43,7 @@ const jsonLd = [
   description={description}
   lang={lang}
   alternatePath={`/en/varieties/${slug}/`}
-  ogImage={entry.data.images[0]?.src}
+  ogImage={ogImage}
   jsonLd={jsonLd}
 >
   <VarietyDetail entry={entry} lang={lang}>
