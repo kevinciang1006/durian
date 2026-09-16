@@ -1,14 +1,19 @@
 # Durian Sriraja
 
-Bilingual (Indonesian/English), SEO-first static marketing site for Durian
-Sriraja, a family-run durian orchard in Bukit Lawang, North Sumatra. Built
-with Astro 7 + Tailwind CSS v4. No backend — ordering happens via WhatsApp.
+Bilingual (Indonesian/English), SEO-first marketing site for Durian Sriraja,
+a family-run durian orchard in Bukit Lawang, North Sumatra. Built with
+Astro 7 + Tailwind CSS v4, deployed on Vercel. Every content page is static
+(prerendered at build time); the one exception is `/api/contact`, a single
+serverless function that sends email via Resend. Ordering still happens
+primarily via WhatsApp — the contact form is an additional channel, not a
+replacement.
 
 ## Setup
 
 ```bash
 npm install
-npm run dev    # runs `ASTRO_DEV_BACKGROUND=false astro dev` so it stays in the foreground
+cp .env.example .env   # fill in real Resend values — see "Contact form" below
+npm run dev             # runs `ASTRO_DEV_BACKGROUND=false astro dev` so it stays in the foreground
 ```
 
 Requires Node >= 22.12.
@@ -92,6 +97,66 @@ files to the repo unnecessarily.
 | hands-durian.png | 1.9MB |
 | logo.png | 1.2MB |
 
+## Contact form (Resend email)
+
+The Contact page (`/kontak`, `/en/contact`) has a form in addition to the
+WhatsApp button. On submit it POSTs to `src/pages/api/contact.ts`, the only
+non-prerendered route in the project (`export const prerender = false`),
+which deploys as a single Vercel Function — everything else stays static.
+
+**How it works:**
+1. Client-side (`src/components/ContactForm.astro`) does basic
+   required-field validation, then `fetch('/api/contact', ...)`. States:
+   idle → submitting (button disabled, label changes) → success (form
+   replaced with a thank-you message) → error (inline message, field
+   values untouched so nothing is lost). A hidden `website` field is a
+   honeypot — real visitors never see or fill it.
+2. Server-side (`src/pages/api/contact.ts`) re-validates everything with
+   zod (the server is the source of truth, not the client check). A
+   filled honeypot gets a silent `200 { ok: true }` with no email sent.
+   A validation failure returns `400` with per-field error messages.
+3. On success, two emails go out via Resend (`src/emails/notification.ts`,
+   `src/emails/auto-reply.ts`): one to `CONTACT_TO_EMAIL` with the
+   submission (reply-to set to the visitor's address, so replying goes
+   straight to them), and one branded auto-reply to the visitor in their
+   selected locale, with a WhatsApp link for a faster response.
+
+**Required environment variables** (see `.env.example`):
+
+| Variable | Purpose |
+|---|---|
+| `RESEND_API_KEY` | From https://resend.com/api-keys |
+| `CONTACT_FROM_EMAIL` | Sending address — must be on a domain verified in Resend |
+| `CONTACT_TO_EMAIL` | Inbox that receives new inquiries |
+
+These are read server-side only (`import.meta.env` inside `api/contact.ts`
+and the email templates) and never bundled into client-side code. `.env` is
+gitignored; only `.env.example` (placeholder values) is committed.
+
+**Testing the endpoint locally:**
+
+```bash
+npm run dev
+
+# Valid submission (needs real env vars in .env to actually send email;
+# without them you'll get a clean 500 instead of a crash)
+curl -X POST http://localhost:4321/api/contact \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Jane Doe","email":"jane@example.com","company":"Acme Imports","phone":"+65 9123 4567","country":"Singapore","message":"Interested in a monthly order of Musang King.","locale":"en","website":""}'
+
+# Honeypot check — should return {"ok":true} and send nothing
+curl -X POST http://localhost:4321/api/contact \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Bot","email":"bot@example.com","message":"spam","locale":"en","website":"http://spam.example"}'
+```
+
+**Before deploying to Vercel**, set these three environment variables in
+the project's Vercel dashboard (Settings → Environment Variables) for the
+Production (and Preview, if you want previews to send real email)
+environment: `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`.
+The build will succeed without them, but every form submission will return
+the 500 "server not configured" error until they're set.
+
 ## Setting the real WhatsApp number
 
 Edit `WHATSAPP_NUMBER` in `src/config.ts`. Format: country code + number,
@@ -124,9 +189,14 @@ npm run check   # Astro's TypeScript checker
 npm run build   # full static build to dist/
 ```
 
-## Deploying to Cloudflare Pages
+## Deploying to Vercel
 
-- Build command: `astro build`
-- Output directory: `dist`
+The site uses `@astrojs/vercel` as its adapter (required for the
+`/api/contact` function), so it deploys to Vercel, not a generic static
+host like Cloudflare Pages:
+
+- Framework preset: Astro (auto-detected)
+- Build command: `astro build` (default)
+- Output directory: `.vercel/output` (handled automatically by the adapter — don't override it)
 - Node version: 22
-- No environment variables are required (the site has no backend).
+- Environment variables: `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL` (see "Contact form" above) — required for the form to send email, not required for the build to succeed.

@@ -2,6 +2,12 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+.vercel/
+
+# Secrets — copy .env.example to .env and fill in real values
+.env
+.env.*
+!.env.example
 
 # Original design mockup reference (not part of the site source)
 Durian Sri Raja Premium Website/

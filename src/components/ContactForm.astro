@@ -1,0 +1,153 @@
+---
+import { useTranslations } from '../i18n/utils';
+import type { Locale } from '../i18n/utils';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = useTranslations(lang).contactForm;
+---
+<div class="bg-card border border-gold/25 rounded-2xl p-7 shadow-lg">
+  <h2 class="font-serif text-2xl text-forest">{t.title}</h2>
+  <p class="text-sm text-muted leading-relaxed mt-2">{t.intro}</p>
+
+  <form id="contact-form" novalidate class="mt-6 grid gap-5">
+    <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+      <label for="website">Website</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+    <input type="hidden" name="locale" value={lang} />
+
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="name" class="block text-xs uppercase tracking-wide text-gold-muted mb-1.5">{t.nameLabel}</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          required
+          placeholder={t.namePlaceholder}
+          class="w-full rounded-lg border border-gold/30 bg-cream px-3.5 py-2.5 text-sm text-charcoal focus-visible:outline-2 focus-visible:outline-gold-border"
+        />
+      </div>
+      <div>
+        <label for="email" class="block text-xs uppercase tracking-wide text-gold-muted mb-1.5">{t.emailLabel}</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          placeholder={t.emailPlaceholder}
+          class="w-full rounded-lg border border-gold/30 bg-cream px-3.5 py-2.5 text-sm text-charcoal focus-visible:outline-2 focus-visible:outline-gold-border"
+        />
+      </div>
+    </div>
+
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="company" class="block text-xs uppercase tracking-wide text-gold-muted mb-1.5">{t.companyLabel}</label>
+        <input
+          id="company"
+          name="company"
+          type="text"
+          placeholder={t.companyPlaceholder}
+          class="w-full rounded-lg border border-gold/30 bg-cream px-3.5 py-2.5 text-sm text-charcoal focus-visible:outline-2 focus-visible:outline-gold-border"
+        />
+      </div>
+      <div>
+        <label for="phone" class="block text-xs uppercase tracking-wide text-gold-muted mb-1.5">{t.phoneLabel}</label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          placeholder={t.phonePlaceholder}
+          class="w-full rounded-lg border border-gold/30 bg-cream px-3.5 py-2.5 text-sm text-charcoal focus-visible:outline-2 focus-visible:outline-gold-border"
+        />
+      </div>
+    </div>
+
+    <div>
+      <label for="country" class="block text-xs uppercase tracking-wide text-gold-muted mb-1.5">{t.countryLabel}</label>
+      <input
+        id="country"
+        name="country"
+        type="text"
+        placeholder={t.countryPlaceholder}
+        class="w-full rounded-lg border border-gold/30 bg-cream px-3.5 py-2.5 text-sm text-charcoal focus-visible:outline-2 focus-visible:outline-gold-border"
+      />
+    </div>
+
+    <div>
+      <label for="message" class="block text-xs uppercase tracking-wide text-gold-muted mb-1.5">{t.messageLabel}</label>
+      <textarea
+        id="message"
+        name="message"
+        required
+        maxlength="2000"
+        rows="5"
+        placeholder={t.messagePlaceholder}
+        class="w-full rounded-lg border border-gold/30 bg-cream px-3.5 py-2.5 text-sm text-charcoal focus-visible:outline-2 focus-visible:outline-gold-border"
+      ></textarea>
+    </div>
+
+    <div id="form-status" role="status" aria-live="polite" class="text-sm text-forest empty:hidden"></div>
+
+    <button
+      id="submit-btn"
+      type="submit"
+      class="inline-flex items-center justify-center gap-2 rounded-full bg-gold text-forest-dark px-6 py-3 text-sm font-semibold hover:bg-gold-light disabled:opacity-60 disabled:cursor-not-allowed"
+    >
+      {t.submit}
+    </button>
+  </form>
+
+  <div id="form-success" hidden class="mt-2">
+    <h3 class="font-serif text-xl text-forest">{t.successTitle}</h3>
+    <p class="text-sm text-muted-dark leading-relaxed mt-2">{t.successBody}</p>
+  </div>
+</div>
+
+<script define:vars={{ t }}>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  const submitBtn = document.getElementById('submit-btn');
+  const successBox = document.getElementById('form-success');
+  const submitLabel = t.submit;
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
+
+    if (!String(payload.name || '').trim() || !String(payload.email || '').trim() || !String(payload.message || '').trim()) {
+      status.textContent = t.errorRequired;
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = t.submitting;
+    status.textContent = '';
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json().catch(() => ({ ok: false }));
+
+      if (response.ok && data.ok) {
+        form.hidden = true;
+        successBox.hidden = false;
+      } else {
+        status.textContent = t.errorGeneric;
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
+      }
+    } catch {
+      status.textContent = t.errorGeneric;
+      submitBtn.disabled = false;
+      submitBtn.textContent = submitLabel;
+    }
+  });
+</script>
