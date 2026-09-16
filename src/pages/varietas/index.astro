@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VarietiesListContent from '../../components/VarietiesListContent.astro';
+import { meta } from '../../i18n/meta';
+---
+<BaseLayout title={meta.id.varieties.title} description={meta.id.varieties.description} lang="id" alternatePath="/en/varieties/">
+  <VarietiesListContent lang="id" />
+</BaseLayout>

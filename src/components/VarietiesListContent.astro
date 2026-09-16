@@ -1,0 +1,37 @@
+---
+import VarietyCard from './VarietyCard.astro';
+import { getVarietiesForLocale, slugFromId } from '../content/utils';
+import type { Locale } from '../i18n/utils';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const varieties = await getVarietiesForLocale(lang);
+
+const copy = {
+  id: {
+    kicker: 'Varietas Kami',
+    title: 'Lima Varietas Premium, Satu Kebun Muda',
+    body:
+      'Setiap varietas yang kami tanam dipilih dengan cermat dan dirawat di tanah subur Bukit Lawang. Karena kebun kami masih muda, kami belum menetapkan tingkatan grade formal — yang kami jamin adalah standar pemilihan yang sama untuk setiap buah, dari Musang King hingga Chanee.',
+    viewLabel: 'Lihat',
+  },
+  en: {
+    kicker: 'Our Varieties',
+    title: 'Five Premium Varieties, One Young Orchard',
+    body:
+      "Every variety we grow is chosen carefully and raised in the fertile soil of Bukit Lawang. Because our orchard is still young, we haven't set formal grade tiers yet — what we guarantee is the same selection standard for every fruit, from Musang King to Chanee.",
+    viewLabel: 'View',
+  },
+} as const;
+const c = copy[lang];
+---
+<div class="mx-auto max-w-6xl px-5 py-14 md:py-20">
+  <span class="text-xs uppercase tracking-[0.28em] text-gold-muted">{c.kicker}</span>
+  <h1 class="font-serif text-4xl md:text-6xl text-forest mt-4">{c.title}</h1>
+  <p class="text-muted-dark leading-relaxed mt-5 max-w-2xl">{c.body}</p>
+  <div class="grid gap-7 mt-12" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))">
+    {varieties.map((entry) => (
+      <VarietyCard entry={entry} slug={slugFromId(entry.id)} lang={lang} viewLabel={c.viewLabel} />
+    ))}
+  </div>
+</div>
