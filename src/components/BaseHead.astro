@@ -1,0 +1,53 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  lang: 'id' | 'en';
+  alternatePath: string;
+  ogImage?: string;
+  jsonLd?: Record<string, unknown>[];
+}
+const { title, description, lang, alternatePath, ogImage, jsonLd = [] } = Astro.props;
+
+const siteUrl = Astro.site ?? new URL('https://duriansriraja.com');
+const selfURL = new URL(Astro.url.pathname, siteUrl);
+const otherURL = new URL(alternatePath, siteUrl);
+const idURL = lang === 'id' ? selfURL : otherURL;
+const enURL = lang === 'en' ? selfURL : otherURL;
+
+const localBusinessJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FoodEstablishment',
+  name: 'Durian Sriraja',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bukit Lawang',
+    addressRegion: 'Kabupaten Langkat, Sumatera Utara',
+    addressCountry: 'ID',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: 3.5556, longitude: 98.1197 },
+  areaServed: 'Indonesia',
+  telephone: '+6283194111119',
+  url: siteUrl.toString(),
+};
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={selfURL} />
+<link rel="alternate" hreflang="id" href={idURL} />
+<link rel="alternate" hreflang="en" href={enURL} />
+<link rel="alternate" hreflang="x-default" href={idURL} />
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:locale" content={lang === 'id' ? 'id_ID' : 'en_US'} />
+<meta property="og:url" content={selfURL} />
+{ogImage && <meta property="og:image" content={new URL(ogImage, siteUrl)} />}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{ogImage && <meta name="twitter:image" content={new URL(ogImage, siteUrl)} />}
+<script type="application/ld+json" set:html={JSON.stringify(localBusinessJsonLd)} />
+{jsonLd.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}

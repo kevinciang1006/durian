@@ -1,0 +1,52 @@
+---
+import { useTranslations, getLocalizedPath } from '../i18n/utils';
+import type { Locale } from '../i18n/utils';
+
+interface Props { lang: Locale; alternatePath: string }
+const { lang, alternatePath } = Astro.props;
+const t = useTranslations(lang);
+
+const navItems = [
+  { key: 'home' as const, label: t.nav.home },
+  { key: 'varieties' as const, label: t.nav.varieties },
+  { key: 'story' as const, label: t.nav.story },
+  { key: 'export' as const, label: t.nav.export },
+  { key: 'contact' as const, label: t.nav.contact },
+];
+
+const currentPath = Astro.url.pathname;
+const idHref = lang === 'id' ? currentPath : alternatePath;
+const enHref = lang === 'en' ? currentPath : alternatePath;
+---
+<header class="sticky top-0 z-50 bg-cream/95 backdrop-blur border-b border-gold/25">
+  <div class="mx-auto max-w-6xl flex items-center gap-5 px-5 py-3.5 flex-wrap">
+    <a href={getLocalizedPath('home', lang)} class="flex items-center gap-3 mr-auto">
+      <span class="block h-7 w-7 border border-gold-muted rounded-tr-full rounded-bl-full"></span>
+      <span class="flex flex-col leading-none">
+        <span class="font-serif text-lg text-forest">Durian Sriraja</span>
+        <span class="text-[9px] tracking-[0.28em] uppercase text-gold-muted mt-1">Bukit Lawang · North Sumatra</span>
+      </span>
+    </a>
+    <nav class="flex gap-6 flex-wrap items-center">
+      {navItems.map((item) => {
+        const href = getLocalizedPath(item.key, lang);
+        const active = currentPath === href;
+        return (
+          <a
+            href={href}
+            class:list={[
+              'text-sm uppercase tracking-wide border-b pb-0.5',
+              active ? 'text-forest border-gold-border' : 'text-muted border-transparent hover:text-forest',
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+    <div class="flex items-center border border-gold-muted/40 rounded-full overflow-hidden text-xs tracking-wide">
+      <a href={idHref} class:list={['px-3 py-1.5', lang === 'id' ? 'bg-forest text-gold-light' : 'text-muted']}>ID</a>
+      <a href={enHref} class:list={['px-3 py-1.5', lang === 'en' ? 'bg-forest text-gold-light' : 'text-muted']}>EN</a>
+    </div>
+  </div>
+</header>

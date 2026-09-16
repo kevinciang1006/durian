@@ -1,0 +1,29 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: 'id' | 'en';
+  alternatePath: string;
+  ogImage?: string;
+  jsonLd?: Record<string, unknown>[];
+}
+const { title, description, lang, alternatePath, ogImage, jsonLd } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <BaseHead title={title} description={description} lang={lang} alternatePath={alternatePath} ogImage={ogImage} jsonLd={jsonLd} />
+  </head>
+  <body>
+    <Header lang={lang} alternatePath={alternatePath} />
+    <main>
+      <slot />
+    </main>
+    <Footer lang={lang} alternatePath={alternatePath} />
+  </body>
+</html>
