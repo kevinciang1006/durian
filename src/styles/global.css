@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@import "@fontsource/prata";
+@import "@fontsource/karla";
+
+@theme {
+  --color-cream: #F7F2E7;
+  --color-charcoal: #1F1E1B;
+  --color-forest: #1C3327;
+  --color-forest-dark: #14251C;
+  --color-forest-deep: #0B1611;
+  --color-gold: #C8963E;
+  --color-gold-light: #E3C07A;
+  --color-gold-muted: #8A6A24;
+  --color-gold-border: #A8842F;
+  --color-card: #FFFCF5;
+  --color-muted: #5C5949;
+  --color-muted-dark: #4A4839;
+  --color-muted-deep: #3D3B2F;
+  --color-muted-light: #8A8372;
+  --font-serif: "Prata", serif;
+  --font-sans: "Karla", system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+a {
+  color: var(--color-gold-muted);
+}
+a:hover {
+  color: var(--color-forest);
+}
+
+::selection {
+  background: var(--color-gold-light);
+  color: var(--color-forest-dark);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold-border);
+  outline-offset: 2px;
+}
