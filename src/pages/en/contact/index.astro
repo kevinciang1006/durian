@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ContactContent from '../../../components/ContactContent.astro';
+import { meta } from '../../../i18n/meta';
+---
+<BaseLayout title={meta.en.contact.title} description={meta.en.contact.description} lang="en" alternatePath="/kontak/">
+  <ContactContent lang="en" />
+</BaseLayout>
