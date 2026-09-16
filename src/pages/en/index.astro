@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomeContent from '../../components/HomeContent.astro';
+import { meta } from '../../i18n/meta';
+---
+<BaseLayout title={meta.en.home.title} description={meta.en.home.description} lang="en" alternatePath="/">
+  <HomeContent lang="en" />
+</BaseLayout>

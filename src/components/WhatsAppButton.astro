@@ -1,0 +1,20 @@
+---
+import { waLink } from '../config';
+
+interface Props {
+  message: string;
+  label: string;
+  variant?: 'primary' | 'outline';
+}
+const { message, label, variant = 'primary' } = Astro.props;
+const href = waLink(message);
+const base = 'inline-flex items-center gap-2.5 rounded-full px-6 py-3.5 text-sm font-semibold';
+const styles =
+  variant === 'primary'
+    ? 'bg-gold text-forest-dark shadow-lg hover:bg-gold-light'
+    : 'border border-cream/45 text-cream hover:border-gold-light';
+---
+<a href={href} class:list={[base, styles]} target="_blank" rel="noopener noreferrer">
+  {variant === 'primary' && <span class="block h-2 w-2 rounded-full bg-forest-dark"></span>}
+  {label}
+</a>

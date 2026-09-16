@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getVarietyPath } from '../i18n/utils';
+import type { Locale } from '../i18n/utils';
+
+interface Props {
+  entry: CollectionEntry<'varieties'>;
+  slug: string;
+  lang: Locale;
+  viewLabel: string;
+}
+const { entry, slug, lang, viewLabel } = Astro.props;
+const { name, tagline, grade, season, images } = entry.data;
+const image = images[0];
+---
+<a href={getVarietyPath(slug, lang)} class="block rounded-2xl overflow-hidden bg-card border border-gold/20 hover:shadow-xl transition-shadow">
+  <div class="relative aspect-[4/3]">
+    <img src={image?.src ?? '/images/placeholder-durian.jpg'} alt={image?.alt ?? name} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+    <span class="absolute top-3 right-3 rounded-full bg-forest/90 text-gold-light text-[10px] tracking-wider uppercase px-3 py-1.5">{grade}</span>
+  </div>
+  <div class="p-5">
+    <h3 class="font-serif text-xl text-forest">{name}</h3>
+    <p class="text-sm leading-relaxed text-muted mt-2">{tagline}</p>
+    <div class="flex justify-between items-center border-t border-gold/20 pt-3 mt-4 text-xs uppercase tracking-wide text-gold-muted">
+      <span>{season}</span>
+      <span class="text-forest normal-case text-[13px]">{viewLabel} →</span>
+    </div>
+  </div>
+</a>

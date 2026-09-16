@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeContent from '../components/HomeContent.astro';
+import { meta } from '../i18n/meta';
 ---
-<BaseLayout title="Durian Sriraja" description="Coming soon." lang="id" alternatePath="/en/">
-  <h1 class="font-serif text-forest text-center py-24">Coming soon</h1>
+<BaseLayout title={meta.id.home.title} description={meta.id.home.description} lang="id" alternatePath="/en/">
+  <HomeContent lang="id" />
 </BaseLayout>

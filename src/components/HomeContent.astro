@@ -1,0 +1,137 @@
+---
+import WhatsAppButton from './WhatsAppButton.astro';
+import VarietyCard from './VarietyCard.astro';
+import { useTranslations, getLocalizedPath } from '../i18n/utils';
+import { getVarietiesForLocale, slugFromId } from '../content/utils';
+import type { Locale } from '../i18n/utils';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const varieties = await getVarietiesForLocale(lang);
+const featured = varieties.filter((v) => v.data.featured);
+
+const copy = {
+  id: {
+    heroTitle: 'Raja Durian dari Rimba Bukit Lawang',
+    heroBody:
+      'Durian premium langsung dari kebun keluarga kami, tumbuh di jantung hutan Bukit Lawang, Sumatera Utara. Musang King, Black Thorn, Monthong, dan lainnya — segar dari pohon.',
+    promises: [
+      '🌳 Langsung dari Kebun — tanpa perantara, panen sendiri',
+      '🌧️ Ditanam di Bukit Lawang — tanah subur di tepi Taman Nasional Gunung Leuser',
+      '👨‍👩‍👦 Kebun Keluarga — dikelola langsung oleh keluarga kami',
+    ],
+    whyTitle: 'Kenapa Durian Sriraja?',
+    whyBody1:
+      'Kami bukan penjual durian biasa. Kebun kami tumbuh di dalam rimba Bukit Lawang — salah satu hutan hujan tertua di dunia. Setiap buah dipanen dari pohon kami sendiri dan dikirim segar, bukan lewat rantai distributor yang panjang.',
+    whyBody2:
+      'Saat musim panen, durian tersedia segar dan dikemas rapi. Di luar musim, kami sediakan durian beku berkualitas agar Anda tetap bisa menikmatinya kapan saja.',
+    storyTitle: 'Dari Retret ke Kebun Durian',
+    storyBody:
+      'Keluarga kami menjalankan tempat retret mindfulness di Bukit Lawang. Kebun durian ini lahir dari kecintaan yang sama terhadap alam dan kesabaran — menanam pohon hari ini untuk buah bertahun-tahun ke depan.',
+    storyLink: 'Baca Cerita Kami',
+    intlTitle: 'Pembeli dari Luar Negeri?',
+    intlBody:
+      'Kami menyambut pembeli dan mitra internasional. Kunjungi kebun, cicipi langsung, atau diskusikan kemitraan jangka panjang.',
+    intlLink: 'Pelajari Lebih Lanjut',
+    featuredKicker: 'Kebun Kami',
+    featuredTitle: 'Varietas Unggulan',
+    viewLabel: 'Lihat',
+    finalCta: 'Mau pesan durian premium langsung dari kebun?',
+  },
+  en: {
+    heroTitle: 'The King of Durians, from the Bukit Lawang Rainforest',
+    heroBody:
+      'Premium durian straight from our family farm, grown in the heart of the Bukit Lawang jungle in North Sumatra. Musang King, Black Thorn, Monthong, and more — fresh from the tree.',
+    promises: [
+      '🌳 Farm-Direct — no middlemen, harvested by us',
+      '🌧️ Grown in Bukit Lawang — fertile land beside Gunung Leuser National Park',
+      '👨‍👩‍👦 Family-Run — managed directly by our family',
+    ],
+    whyTitle: 'Why Durian Sriraja?',
+    whyBody1:
+      "We're not an ordinary durian seller. Our orchard grows inside the Bukit Lawang rainforest — one of the oldest jungles on earth. Every fruit is harvested from our own trees and delivered fresh, not passed through a long distributor chain.",
+    whyBody2:
+      'In season, durian is available fresh and carefully boxed. Off-season, we offer quality frozen durian so you can enjoy it any time of year.',
+    storyTitle: 'From a Retreat to a Durian Orchard',
+    storyBody:
+      'Our family runs a mindfulness retreat in Bukit Lawang. This durian orchard grew from the same love of nature and patience — planting trees today for fruit years into the future.',
+    storyLink: 'Read Our Story',
+    intlTitle: 'Buying from Overseas?',
+    intlBody:
+      'We welcome international buyers and partners. Visit the farm, taste it yourself, or discuss a long-term partnership.',
+    intlLink: 'Learn More',
+    featuredKicker: 'Our Orchard',
+    featuredTitle: 'Featured Varieties',
+    viewLabel: 'View',
+    finalCta: 'Want premium durian straight from the farm?',
+  },
+} as const;
+
+const c = copy[lang];
+---
+<section class="relative min-h-[70vh] flex items-end bg-forest">
+  <img src="/images/placeholder-farm.jpg" alt="" class="absolute inset-0 h-full w-full object-cover opacity-50" />
+  <div class="absolute inset-0 bg-gradient-to-t from-forest-deep/95 via-forest-deep/40 to-transparent"></div>
+  <div class="relative mx-auto max-w-6xl w-full px-5 py-16">
+    <h1 class="font-serif text-cream text-4xl md:text-7xl leading-tight max-w-2xl">{c.heroTitle}</h1>
+    <p class="text-cream/85 mt-6 max-w-xl leading-relaxed">{c.heroBody}</p>
+    <div class="flex flex-wrap gap-4 mt-8">
+      <WhatsAppButton message={t.whatsapp.generic} label={t.ctaOrder} />
+      <a href={getLocalizedPath('varieties', lang)} class="inline-flex items-center gap-2 border border-cream/45 text-cream rounded-full px-6 py-3.5 text-sm hover:border-gold-light">{t.ctaBrowse}</a>
+    </div>
+  </div>
+</section>
+
+<section class="bg-forest text-cream/90 border-t border-gold/30">
+  <div class="mx-auto max-w-6xl px-5 py-6 grid gap-4" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+    {c.promises.map((p) => <p class="text-sm">{p}</p>)}
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+  <h2 class="font-serif text-3xl md:text-4xl text-forest">{c.whyTitle}</h2>
+  <p class="text-muted-dark leading-relaxed mt-5 max-w-2xl">{c.whyBody1}</p>
+  <p class="text-muted-dark leading-relaxed mt-4 max-w-2xl">{c.whyBody2}</p>
+</section>
+
+<section class="bg-card border-y border-gold/20">
+  <div class="mx-auto max-w-6xl px-5 py-16 md:py-20 grid gap-10 md:grid-cols-2 items-center">
+    <img src="/images/placeholder-orchard.jpg" alt="" loading="lazy" decoding="async" class="rounded-2xl aspect-[5/4] object-cover" />
+    <div>
+      <h2 class="font-serif text-3xl text-forest">{c.storyTitle}</h2>
+      <p class="text-muted-dark leading-relaxed mt-4 max-w-lg">{c.storyBody}</p>
+      <a href={getLocalizedPath('story', lang)} class="inline-block mt-6 text-sm uppercase tracking-wide text-gold-muted border-b border-gold-border/50 pb-1">{c.storyLink}</a>
+    </div>
+  </div>
+</section>
+
+<section class="bg-forest text-cream">
+  <div class="mx-auto max-w-6xl px-5 py-16 md:py-20">
+    <h2 class="font-serif text-3xl">{c.intlTitle}</h2>
+    <p class="text-cream/80 leading-relaxed mt-4 max-w-xl">{c.intlBody}</p>
+    <a href={getLocalizedPath('export', lang)} class="inline-block mt-6 bg-gold text-forest-dark rounded-full px-6 py-3.5 text-sm font-semibold hover:bg-gold-light">{c.intlLink}</a>
+  </div>
+</section>
+
+{featured.length > 0 && (
+  <section class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+    <span class="text-xs uppercase tracking-[0.28em] text-gold-muted">{c.featuredKicker}</span>
+    <h2 class="font-serif text-3xl md:text-4xl text-forest mt-3">{c.featuredTitle}</h2>
+    <div class="grid gap-7 mt-10" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr))">
+      {featured.map((entry) => (
+        <VarietyCard entry={entry} slug={slugFromId(entry.id)} lang={lang} viewLabel={c.viewLabel} />
+      ))}
+    </div>
+  </section>
+)}
+
+<section class="bg-forest-dark text-cream text-center">
+  <div class="mx-auto max-w-2xl px-5 py-16">
+    <p class="font-serif text-2xl md:text-3xl">{c.finalCta}</p>
+    <div class="mt-7 flex justify-center">
+      <WhatsAppButton message={t.whatsapp.generic} label={t.ctaOrder} />
+    </div>
+  </div>
+</section>
