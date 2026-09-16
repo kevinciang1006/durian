@@ -50,10 +50,11 @@ into `public/` is served as-is, unoptimized.
 
 Current photos and where they're used:
 
-- `musang-king.png`, `black-thorn.png`, `monthong.png`, `chanee.png` — one real photo per variety, referenced from that variety's Markdown frontmatter (`images[0].src`, path relative to the Markdown file: `../../../assets/images/<file>`).
-- `placeholder-durian.jpg` — Sultan (D24) has no real photo yet; its frontmatter points here. Replace it the same way as any other variety once a photo exists.
+- `musang-king.png`, `black-thorn.png`, `monthong.png`, `sultan.png`, `chanee.png` — one real photo per variety (all 5 covered), referenced from that variety's Markdown frontmatter (`images[0].src`, path relative to the Markdown file: `../../../assets/images/<file>`).
+- `placeholder-durian.jpg` — kept around as a generic fallback in case a future variety is added before its real photo is ready; no current variety uses it.
 - `hero.png` — Home page hero background (`HomeContent.astro`).
 - `box-durian.png` — Home page international-callout image and the Export page's "Fresh & Frozen" / shipping block (`HomeContent.astro`, `ExportContent.astro`).
+- `young-orchard.png` — Our Story's "Kenapa Durian / Why Durian" block (the 2021 planting story) (`OurStoryContent.astro`).
 - `hands-durian.png` — Home page story-teaser image and Our Story's "Kebun yang Sedang Tumbuh / A Growing Orchard" block (`HomeContent.astro`, `OurStoryContent.astro`).
 - `jungle-path.png` — Our Story's "Sebuah Undangan / An Invitation" block (`OurStoryContent.astro`).
 - `tasting-durian.png` — Export page's "Visit the Farm" block (`ExportContent.astro`).
@@ -74,10 +75,12 @@ files to the repo unnecessarily.
 
 | File | Source size |
 |---|---|
+| young-orchard.png | 2.9MB |
 | jungle-path.png | 3.3MB |
 | box-durian.png | 2.7MB |
 | tasting-durian.png | 2.3MB |
 | monthong.png | 2.3MB |
+| sultan.png | 2.3MB |
 | chanee.png | 2.2MB |
 | black-thorn.png | 2.2MB |
 | musang-king.png | 2.2MB |

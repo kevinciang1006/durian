@@ -5,6 +5,7 @@ import { useTranslations } from '../i18n/utils';
 import type { Locale } from '../i18n/utils';
 import handsImage from '../assets/images/hands-durian.png';
 import jungleImage from '../assets/images/jungle-path.png';
+import orchardImage from '../assets/images/young-orchard.png';
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
@@ -21,12 +22,16 @@ const copy = {
       {
         title: 'Kenapa Durian',
         body: 'Bagi keluarga kami, menanam durian adalah bentuk kesabaran. Sama seperti meditasi, kebun ini tumbuh perlahan — pohon yang ditanam hari ini baru berbuah bertahun-tahun kemudian. Pada tahun 2021, kami mulai menanami lahan seluas 8 hektar dengan lebih dari 700 pohon durian premium.',
+        image: orchardImage,
+        imageAlt: 'Pohon-pohon durian muda di lereng bukit dengan kabut hutan hujan di kejauhan',
+        reverse: false,
       },
       {
         title: 'Kebun yang Sedang Tumbuh',
         body: 'Kebun kami masih muda, dan justru di situlah letak keistimewaannya — Anda menyaksikan sebuah kebun durian tumbuh dari awal. Kami menanam bibit varietas terbaik seperti Musang King, Black Thorn, dan Monthong, merawatnya di tanah subur Bukit Lawang, dan kini memasuki masa panen premium pertama kami.',
         image: handsImage,
         imageAlt: 'Petani memegang durian segar hasil panen dari kebun',
+        reverse: true,
       },
       {
         title: 'Nama Kami',
@@ -37,6 +42,7 @@ const copy = {
         body: 'Menikmati durian paling nikmat adalah di tempat ia tumbuh. Kebun kami berada jauh di dalam hutan — sekitar 30 menit berjalan kaki menembus rimba dan menyeberangi sungai. Bagi yang bersedia menempuhnya, ada pengalaman langka menanti: menyantap durian segar, langsung dari pohonnya, di tengah salah satu hutan tertua di dunia.',
         image: jungleImage,
         imageAlt: 'Jalan setapak hutan dan penyeberangan sungai menuju kebun',
+        reverse: false,
       },
     ],
   },
@@ -50,12 +56,16 @@ const copy = {
       {
         title: 'Why Durian',
         body: "For our family, growing durian is an act of patience. Like meditation, this orchard grows slowly — a tree planted today only bears fruit years later. In 2021, we began planting 8 hectares of land with more than 700 premium durian trees.",
+        image: orchardImage,
+        imageAlt: 'Young durian trees on a hillside with misty rainforest in the distance',
+        reverse: false,
       },
       {
         title: 'A Growing Orchard',
         body: "Our orchard is young, and that's exactly what makes it special — you're watching a durian farm grow from the very beginning. We planted the finest varieties, including Musang King, Black Thorn, and Monthong, nurtured them in the fertile soil of Bukit Lawang, and are now entering our first premium harvests.",
         image: handsImage,
         imageAlt: 'A farmer holding a freshly picked durian from the orchard',
+        reverse: true,
       },
       {
         title: 'Our Name',
@@ -66,6 +76,7 @@ const copy = {
         body: 'Durian tastes best where it grows. Our orchard lies deep in the jungle — about a 30-minute walk through the forest and across rivers. For those willing to make the journey, a rare experience awaits: eating durian fresh, straight from the tree, in one of the oldest rainforests on earth.',
         image: jungleImage,
         imageAlt: 'A jungle path and river crossing leading to the orchard',
+        reverse: false,
       },
     ],
   },
@@ -77,12 +88,12 @@ const c = copy[lang];
   <h1 class="font-serif text-4xl md:text-6xl text-forest mt-6">{c.title}</h1>
 </div>
 
-{c.sections.map((s, i) =>
+{c.sections.map((s) =>
   'image' in s ? (
     <section class="mx-auto max-w-5xl px-5 py-10">
       <div
         class="grid gap-8 md:grid-cols-2 items-center"
-        style={i % 2 ? 'direction:rtl' : ''}
+        style={s.reverse ? 'direction:rtl' : ''}
       >
         <Image
           src={s.image}

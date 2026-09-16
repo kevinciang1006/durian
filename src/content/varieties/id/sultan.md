@@ -6,7 +6,7 @@ season: "Pertengahan & akhir tahun"
 grade: "Premium"
 origin: "Kebun Durian Sriraja, Bukit Lawang, Sumatera Utara"
 priceNote: "Harga pasar — hubungi via WhatsApp"
-images: [{ src: "../../../assets/images/placeholder-durian.jpg", alt: "Durian Sultan" }]
+images: [{ src: "../../../assets/images/sultan.png", alt: "Durian Sultan belah" }]
 featured: false
 order: 4
 ---
