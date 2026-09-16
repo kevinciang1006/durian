@@ -90,18 +90,19 @@ Flavor scale is **1–5** (reverted to the original PRD scale — the mockup's
 1–10 scale is no longer used since the real variety data is on 1–5). Bars
 render at `score * 20`% width.
 
-### Seed data — 4 confirmed varieties, both locales, verbatim user copy
+### Seed data — 5 confirmed varieties, both locales, verbatim user copy
 
 1. `musang-king` — Premium, sweetness 4 / bitterness 4 / creaminess 5, featured, order 1
 2. `black-thorn` — Premium, 5/3/5, featured, order 2
 3. `monthong` — Premium, 4/1/3, order 3
 4. `sultan` (D24) — Premium, 3/4/4, order 4
+5. `chanee` — Premium, 4/2/4, order 5
 
 All `name`, `tagline`, `season`, `grade`, `origin`, `priceNote`, and body
 copy (ID and EN) are taken verbatim from the markdown the user supplied.
-A 5th variety ("Cane") is pending real content and is **not** seeded yet —
-adding it later is just two new markdown files, no code changes (this is
-the collection's whole point).
+There is no longer a pending 6th variety — adding future varieties later is
+just two new markdown files, no code changes (this is the collection's
+whole point).
 
 `images` for every seed entry points to `/images/placeholder-durian.jpg`
 (see §6) with a variety-specific `alt` text, exactly as supplied.
@@ -193,11 +194,11 @@ conversation.
 
 ### 7.2 Varieties listing (`/varietas/`, `/en/varieties/`)
 
-*(spec-authored)* Kicker "Varietas Kami" / "Our Varieties"; title "Empat
-Varietas Premium, Satu Kebun Muda" / "Four Premium Varieties, One Young
+*(spec-authored)* Kicker "Varietas Kami" / "Our Varieties"; title "Lima
+Varietas Premium, Satu Kebun Muda" / "Five Premium Varieties, One Young
 Orchard"; short intro noting each variety is grown on the family's own land
 in Bukit Lawang and graded honestly since the orchard is still building its
-track record. Grid of all 4 seeded varieties sorted by `order`.
+track record. Grid of all 5 seeded varieties sorted by `order`.
 
 ### 7.3 Variety detail (`/varietas/[slug]/`, `/en/varieties/[slug]/`)
 
@@ -268,12 +269,24 @@ selected (hand-picked, tree-ripened) instead of a tiered spec table.
 
 ### 7.6 Contact (`/kontak/`, `/en/contact/`)
 
-WhatsApp CTA, address/phone/email, hours, embedded Google Maps iframe.
-Location updated to the real region: **Bukit Lawang, Kabupaten Langkat,
-Sumatera Utara, Indonesia** (replaces the mockup's Sibolangit address —
-exact street address TBD by the user before launch; placeholder text notes
-this). Google Maps query: `"Bukit Lawang, Sumatera Utara"`. No contact
-form — WhatsApp is the only conversion path, per non-goals (zero backend).
+Final verbatim copy, 4 sections + closing map link (no contact form, no
+email address — the user's copy only lists WhatsApp and location; the
+farm is by-appointment-only since the orchard itself is off-grid):
+
+1. **Lede** — "want to order or visit? WhatsApp is the fastest way to
+   reach us" + WhatsApp CTA button.
+2. **Farm location** — Bukit Lawang, Kabupaten Langkat, Sumatera Utara, on
+   the edge of Gunung Leuser National Park.
+3. **Farm visits** — welcomes visitors; notes the ~30-minute jungle/river
+   walk to the orchard and comfortable footwear; by appointment only via
+   WhatsApp.
+4. **Get in touch** — WhatsApp number `+62 831-9411-1119`; location repeat.
+5. **"Open Map" link** — pins the **Bukit Lawang village entrance** as the
+   meeting point (not the orchard itself, which is off-grid):
+   `https://maps.google.com/?q=Bukit+Lawang,+Langkat,+North+Sumatra`.
+
+(Full ID/EN text as supplied verbatim in the brainstorming conversation —
+copied as-is into the page's content, not paraphrased.)
 
 ### 7.7 Custom 404
 
@@ -285,8 +298,9 @@ Locale-specific slugs: `/varietas/` ↔ `/en/varieties/`, `/cerita-kami/` ↔
 
 ## 8. WhatsApp integration
 
-- `src/config.ts`: `WHATSAPP_NUMBER` placeholder (intl format, no `+`/spaces
-  — required by `wa.me`); exact number TBD by the user before launch.
+- `src/config.ts`: `WHATSAPP_NUMBER = '6283194111119'` (real number, from
+  `+62 831-9411-1119`, converted to `wa.me`'s required format: country code
+  + subscriber number, no `+`/spaces/dashes).
 - `waLink(message: string): string` → `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`.
 - Per-locale message templates in `src/i18n/ui.ts`:
   - Home / generic: id `"Halo, saya tertarik dengan durian dari Kebun Sriraja"` / en `"Hi, I'm interested in durian from Sriraja Farm"`.
@@ -301,16 +315,65 @@ Locale-specific slugs: `/varietas/` ↔ `/en/varieties/`, `/cerita-kami/` ↔
   canonical, OpenGraph (title/description/image/locale), Twitter card
   (`summary_large_image`), hreflang alternates (id/en/x-default) — takes
   page-specific props, used once per layout.
-- JSON-LD:
-  - `LocalBusiness` (`@type: FoodEstablishment`) — sitewide, injected in the
-    base layout, `name: "Durian Sriraja"`, address in Bukit Lawang, Langkat,
-    North Sumatra (placeholder street address).
-  - `Product` — on each variety detail page (name, description, offers
-    with `availability` only — no numeric `price`, since none is published).
-  - `BreadcrumbList` — on variety detail, story, export, and contact pages.
+
+### 9.1 Page meta (`src/i18n/meta.ts`)
+
+Static pages (home, varieties, story, international, contact) source
+`title`/`description` from a locale → page keyed object, exactly as
+supplied by the user:
+
+```ts
+export const meta = {
+  id: {
+    home: { title: "Durian Sriraja — Durian Premium Bukit Lawang, Sumatera Utara", description: "..." },
+    varieties: { title: "Jenis Durian Premium Kami | Durian Sriraja Bukit Lawang", description: "..." },
+    story: { title: "Cerita Kami — Kebun Durian di Rimba Bukit Lawang", description: "..." },
+    international: { title: "Pembeli Internasional — Durian Premium Indonesia | Sriraja", description: "..." },
+    contact: { title: "Kontak & Kunjungan Kebun | Durian Sriraja Bukit Lawang", description: "..." },
+  },
+  en: { /* mirrors id, English copy */ },
+} as const;
+```
+
+(Full title/description strings as supplied verbatim by the user — see
+brainstorming conversation; copied into `src/i18n/meta.ts` as-is.) Each
+static page imports its `meta[lang].<page>` entry and passes it to `<SEO>`.
+Note: the "international" key is the Export & Partnerships page's meta
+entry (naming carried over from the user's `meta.ts` draft).
+
+Variety detail pages **generate** their meta from frontmatter instead of a
+static table (avoids hand-writing 2×5 more entries and staying in sync as
+varieties are added):
+
+- `id` title: `` `${name} — Durian Premium Bukit Lawang | Durian Sriraja` ``
+- `en` title: `` `${name} Durian — Premium from Bukit Lawang | Durian Sriraja` ``
+- description: `` `${tagline} — ${origin}` ``
+- OpenGraph image: the variety's `images[0]`.
+
+### 9.2 JSON-LD
+
+- `LocalBusiness` (`@type: FoodEstablishment`) — sitewide, injected in the
+  base layout: `name: "Durian Sriraja"`, address Bukit Lawang / Kabupaten
+  Langkat / North Sumatra, `geo` (approximate Bukit Lawang coordinates),
+  `areaServed` (Indonesia + the region generally, not the fabricated
+  destination-market list from the old mockup), `sameAs` — **needs the
+  farm's real Instagram URL from the user before launch**; ships as an
+  empty array (or the property omitted) until supplied, not a fabricated
+  link.
+- `Product` — on each variety detail page: `name`, `description`, `brand`
+  (`"Durian Sriraja"`), `image` (the variety's placeholder/real photo),
+  `offers.availability` only (no numeric `price`).
+- `BreadcrumbList` — on variety detail, story, export, and contact pages.
+
+### 9.3 Sitemap & robots
+
 - `@astrojs/sitemap` configured with `i18n: { defaultLocale: 'id', locales: { id: 'id', en: 'en' } }` so alternates are generated automatically.
-- `robots.txt` (static, references sitemap URL).
-- Semantic HTML: one `<h1>` per page, descriptive `alt` text on every image, logical heading order.
+- `robots.txt` (static): allow all, references the sitemap URL.
+
+### 9.4 Baseline
+
+Semantic HTML: one `<h1>` per page, descriptive `alt` text on every image,
+logical heading order.
 
 ## 10. Non-functional
 
@@ -333,10 +396,10 @@ to add a variety (create `src/content/varieties/{id,en}/<slug>.md`), how to
 swap a placeholder image (replace the file under `public/images/` or
 `src/assets/`, keeping the same filename/path), how to set the real
 WhatsApp number (`src/config.ts`), how to set the real domain
-(`astro.config.mjs` `site` field + `public/robots.txt`), how to fill in the
-real farm address (Contact page + `LocalBusiness` JSON-LD), and deploy
-notes for Cloudflare Pages (build command `astro build`, output `dist/`,
-Node 22).
+(`astro.config.mjs` `site` field + `public/robots.txt`), how to add the
+farm's Instagram URL to the `LocalBusiness` JSON-LD `sameAs` field, and
+deploy notes for Cloudflare Pages (build command `astro build`, output
+`dist/`, Node 22).
 
 ## 12. Out of scope (unchanged from PRD)
 
@@ -352,9 +415,8 @@ or delivery tracking, no contact form/backend.
 - **Brand name is "Durian Sriraja"** (one word), not "Durian Sri Raja" —
   except inside the Our Story "Our Name" section, which deliberately plays
   on the two-word etymology and is quoted verbatim.
-- **4 confirmed varieties** (Musang King, Black Thorn, Monthong, Sultan/D24)
-  seeded now; a 5th ("Cane") is pending and added later with no code
-  changes.
+- **5 confirmed varieties** (Musang King, Black Thorn, Monthong, Sultan/D24,
+  Chanee) seeded now — no more pending varieties for v1.
 - **Flavor profile scale is 1–5**, per the user's actual data (reverting
   the earlier 1–10 decision, which was based on the now-discarded mockup
   content).
@@ -365,11 +427,18 @@ or delivery tracking, no contact form/backend.
 - **Placeholder images are real files** (`public/images/placeholder-*.jpg`),
   not the mockup's CSS stripe-pattern component, since the user's content
   already references real image paths.
-- **Contact page location updated** to Bukit Lawang, Kabupaten Langkat,
-  North Sumatra (exact street address, phone number, and email are still
-  placeholders pending the user's real details before launch).
+- **Contact page finalized**: real WhatsApp number (`+62 831-9411-1119`),
+  location given as the Bukit Lawang village area (the orchard itself is
+  off-grid, ~30 min walk from a meeting point), "Open Map" links to the
+  village entrance, not a precise orchard pin. No email address is
+  published — matches the user's copy.
 - **Contact page has no form** — WhatsApp-only, keeps the "no backend"
   constraint airtight; a `mailto:` link may be added trivially later if
   wanted.
+- **`src/i18n/meta.ts` added** with real per-page `<title>`/description
+  copy (keyword-loaded for local + export intent); variety detail pages
+  generate their own meta from frontmatter rather than a hand-written
+  table. JSON-LD `sameAs` (Instagram) is left empty pending the user's real
+  URL — not fabricated.
 - **Fonts self-hosted via Fontsource** rather than a Google Fonts `<link>`,
   to keep the perf/zero-runtime-request goals intact.
