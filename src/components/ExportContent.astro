@@ -1,0 +1,84 @@
+---
+import WhatsAppButton from './WhatsAppButton.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Locale } from '../i18n/utils';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const copy = {
+  id: {
+    kicker: 'Ekspor & Kemitraan',
+    title: 'Menyambut Pembeli dan Mitra dari Luar Negeri',
+    lede:
+      'Kebun kami masih muda, dan kami membangunnya bersama pembeli yang menghargai perjalanan itu sejak awal. Kami menyambut importir, distributor, dan mitra jangka panjang yang ingin bertumbuh bersama kami.',
+    blocks: [
+      { title: 'Kunjungi Kebun', body: 'Cara terbaik mengenal durian kami adalah datang langsung. Kami mengatur kunjungan kebun bagi calon mitra dan pembeli, termasuk mencicipi buah langsung dari pohon.' },
+      { title: 'Panen Musiman', body: 'Sebagai kebun muda, kami baru memasuki musim panen premium pertama. Ketersediaan mengikuti musim buah yang sesungguhnya, bukan produksi massal.' },
+      { title: 'Segar & Beku', body: 'Saat musim panen, kami kirim durian segar yang dikemas rapi. Di luar musim, tersedia durian beku berkualitas untuk permintaan yang berkelanjutan.' },
+      { title: 'Kemitraan Jangka Panjang', body: 'Kami mencari mitra distribusi dan ekspor yang ingin membangun hubungan jangka panjang seiring kebun kami bertumbuh, bukan transaksi satu kali.' },
+    ],
+    selectTitle: 'Bagaimana Kami Memilih',
+    selectBody:
+      'Setiap durian yang kami jual dipetik matang dari pohon dan diperiksa langsung oleh keluarga sebelum dikirim — bukan dibeli dari pengepul. Karena kebun kami masih membangun rekam jejaknya, kami belum menetapkan tingkatan grade formal; yang kami jamin adalah setiap buah dipilih dengan standar yang sama ketatnya untuk pasar lokal maupun pembeli luar negeri.',
+    enquiryTitle: 'Ingin Menjajaki Kemitraan?',
+    enquiryBody:
+      'Ceritakan kebutuhan Anda — negara tujuan, perkiraan volume, atau rencana kunjungan. Kami akan balas dan atur langkah berikutnya.',
+    enquiryCta: 'Hubungi via WhatsApp',
+  },
+  en: {
+    kicker: 'Export & Partnerships',
+    title: 'Welcoming Overseas Buyers and Partners',
+    lede:
+      "Our orchard is still young, and we're building it together with buyers who value that journey from the start. We welcome importers, distributors, and long-term partners who want to grow alongside us.",
+    blocks: [
+      { title: 'Visit the Farm', body: 'The best way to get to know our durian is to come see it yourself. We arrange farm visits for prospective partners and buyers, including tasting fruit straight from the tree.' },
+      { title: 'Seasonal Harvests', body: "As a young orchard, we're only just entering our first premium harvest season. Availability follows the real fruiting season, not mass production." },
+      { title: 'Fresh & Frozen', body: 'In season, we ship fresh durian, carefully packed. Off-season, quality frozen durian is available for ongoing demand.' },
+      { title: 'Long-Term Partnerships', body: "We're looking for distribution and export partners who want to build a long-term relationship as our orchard grows, not a one-off transaction." },
+    ],
+    selectTitle: 'How We Select Our Fruit',
+    selectBody:
+      "Every durian we sell is picked ripe from the tree and checked by the family before it ships — never bought from a collector. Since our orchard is still building its track record, we haven't set formal grade tiers yet; what we guarantee is that every fruit meets the same strict standard, for local buyers and overseas partners alike.",
+    enquiryTitle: 'Want to Explore a Partnership?',
+    enquiryBody:
+      "Tell us what you need — destination country, expected volume, or a visit you'd like to plan. We'll reply and arrange next steps.",
+    enquiryCta: 'Message Us on WhatsApp',
+  },
+} as const;
+const c = copy[lang];
+---
+<section class="bg-forest text-cream">
+  <div class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+    <span class="text-xs uppercase tracking-[0.28em] text-gold-light">{c.kicker}</span>
+    <h1 class="font-serif text-4xl md:text-6xl mt-4 max-w-2xl">{c.title}</h1>
+    <p class="text-cream/85 leading-relaxed mt-5 max-w-2xl">{c.lede}</p>
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-5 py-16 md:py-20">
+  <div class="grid gap-8" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))">
+    {c.blocks.map((b) => (
+      <div class="border-t border-gold-border pt-5">
+        <h3 class="font-serif text-xl text-forest">{b.title}</h3>
+        <p class="text-muted leading-relaxed mt-3">{b.body}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<section class="bg-card border-y border-gold/20">
+  <div class="mx-auto max-w-6xl px-5 py-14 md:py-16">
+    <h2 class="font-serif text-2xl md:text-3xl text-forest">{c.selectTitle}</h2>
+    <p class="text-muted-dark leading-relaxed mt-4 max-w-3xl">{c.selectBody}</p>
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-5 py-16 md:py-20">
+  <h2 class="font-serif text-3xl text-forest">{c.enquiryTitle}</h2>
+  <p class="text-muted-dark leading-relaxed mt-4 max-w-xl">{c.enquiryBody}</p>
+  <div class="mt-7">
+    <WhatsAppButton message={t.whatsapp.partnership} label={c.enquiryCta} />
+  </div>
+</section>

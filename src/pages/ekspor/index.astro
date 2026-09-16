@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExportContent from '../../components/ExportContent.astro';
+import { meta } from '../../i18n/meta';
+---
+<BaseLayout title={meta.id.international.title} description={meta.id.international.description} lang="id" alternatePath="/en/export/">
+  <ExportContent lang="id" />
+</BaseLayout>
